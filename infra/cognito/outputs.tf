@@ -11,8 +11,7 @@ resource "aws_ssm_parameter" "user_pool_client_id" {
 }
 
 resource "aws_ssm_parameter" "user_pool_client_secret" {
-  name = "/${var.project_name}/user-pool-client-secret"
-  # TODO: Maybe should be secret string?
+  name  = "/${var.project_name}/user-pool-client-secret"
   type  = "String"
   value = aws_cognito_user_pool_client.client.client_secret
 }
