@@ -1,0 +1,57 @@
+service: flask-cognito
+
+package:
+  individually: true
+  exclude:
+    - "**"
+
+plugins:
+  - serverless-python-requirements
+  - serverless-wsgi
+  - serverless-prune-plugin
+
+provider:
+  region: eu-west-1
+  name: aws
+  runtime: python3.7
+  deploymentBucket:
+    name: ${ssm:/serverless/deployment-bucket-id}
+    serverSideEncryption: AES256
+  apiGateway:
+    restApiId: ${ssm:/flask/api-gateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/flask/api-gateway/root-resource-id}
+
+functions:
+  app:
+    role: ${ssm:/flask/lambda-iam-role/arn}
+    handler: wsgi_handler.handler
+    package:
+      include:
+        - "src/app.py"
+        - "src/config.py"
+        - "src/keys.py"
+        - "src/templates/**"
+    timeout: 30
+    events:
+      - http: ANY /
+      - http: "ANY /{proxy+}"
+    environment:
+      SECRET_KEY: ${ssm:/flask/flask-secret}
+      JWT_PRIVATE_KEY: ${ssm:/flask/jwt-private-key}
+      JWT_SECRET_KEY: ${ssm:/flask/jwt-secret}
+      AWS_COGNITO_DOMAIN: ${ssm:/flask/cognito-domain}
+      AWS_COGNITO_USER_POOL_ID: ${ssm:/flask/user-pool-id}
+      AWS_COGNITO_USER_POOL_CLIENT_ID: ${ssm:/flask/user-pool-client-id}
+      AWS_COGNITO_USER_POOL_CLIENT_SECRET: ${ssm:/flask/user-pool-client-secret}
+      SITE_URL: ${ssm:/flask/api-gateway/url}
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+    usePoetry: false
+  wsgi:
+    app: src.app.app
+    packRequirements: false
+  prune:
+    automatic: true
+    number: 3

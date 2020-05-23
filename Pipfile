@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-testmon = "*"
+pytest-random-order = "*"
+boto3 = "*"
+
+[packages]
+cazoo-logger = "*"
+flask = "*"
+flask-awscognito = "*"
+flask-cors = "*"
+flask-jwt-extended = "*"
+cryptography = "*"
+requests = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+test="pytest"
