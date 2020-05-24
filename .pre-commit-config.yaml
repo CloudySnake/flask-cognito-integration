@@ -25,11 +25,11 @@ repos:
     hooks:
       - id: terraform_fmt
 
-  - repo: local
-    hooks:
-      - id: run-tests
-        name: Run tests
-        entry: ./bin/run-tests.sh
-        language: script
-        pass_filenames: false
-        stages: [push]
+#  - repo: local
+#    hooks:
+#      - id: run-tests
+#        name: Run tests
+#        entry: ./bin/run-tests.sh
+#        language: script
+#        pass_filenames: false
+#        stages: [push]
