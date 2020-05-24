@@ -1,5 +1,4 @@
 # flask-cognito-integration
 
-
-Run pre-commit install --hook-type pre-push in the root directory, we will check tests before pushing to remote
-Run pre-commit install --hook-type pre-commit in the root directory, we check and format on commit
+Sample application for integrating Amazon Cognito with Flask.
+For more details check out my Medium article https://medium.com/@CloudySnake/integrating-cognito-with-flask-e00010866054
